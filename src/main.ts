@@ -32,14 +32,15 @@ let originTime: number = 0;
 
 // Define the function to update the counter
 function updateCounter() {
-  // Increase the counter by 0.016 for each frame
-  let deltaTime = performance.now()
-  counter += 1 / ((deltaTime - originTime)) // one divided by the time passed in seconds
-  originTime = deltaTime
+  // Increase the counter by time delta for each frame
+  const deltaTime = performance.now();
+  counter += 1 / (deltaTime - originTime); // one divided by the time passed in seconds
+  originTime = deltaTime;
+  console.log("Frame Update")
   // Update the displayed text
   const updatedCounterText = `GME Stock Price: ${counter.toFixed(2)}$`;
   counterElement.innerHTML = updatedCounterText;
-  
+
   // Schedule the next update
   requestAnimationFrame(updateCounter);
 }
