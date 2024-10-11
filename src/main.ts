@@ -28,22 +28,48 @@ button.addEventListener("click", () => {
   counterElement.innerHTML = updatedCounterText;
 });
 
-let originTime: number = 0;
+let originTime: number = performance.now();
+let fps: number = 0;
+let rate: number = 0;
 
 // Define the function to update the counter
 function updateCounter() {
   // Increase the counter by time delta for each frame
+  //gather frame rate
   const deltaTime = performance.now();
-  counter += 1 / (deltaTime - originTime); // one divided by the time passed in seconds
+  fps = 1000 / (deltaTime - originTime)
   originTime = deltaTime;
-  console.log("Frame Update")
+  counter += rate;
+  console.log("Frame Update");
   // Update the displayed text
   const updatedCounterText = `GME Stock Price: ${counter.toFixed(2)}$`;
   counterElement.innerHTML = updatedCounterText;
 
+  //make upgrades available
+  if(counter < 10){
+    upgrade1.disabled = true;
+  }
+  else{
+    upgrade1.disabled = false;
+  }
+
   // Schedule the next update
   requestAnimationFrame(updateCounter);
 }
+
+//upgrade button
+
+//make a clickable button
+const upgradeText1 = "Buy Stock - 10$";
+const upgrade1 = document.createElement("button");
+upgrade1.innerHTML = upgradeText1;
+upgrade1.disabled = true;
+app.append(upgrade1);
+
+upgrade1.addEventListener("click", () => {
+  rate += 1 / fps;
+  counter -= 10
+});
 
 // Start the loop
 requestAnimationFrame(updateCounter);
