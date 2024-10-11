@@ -28,9 +28,21 @@ button.addEventListener("click", () => {
   counterElement.innerHTML = updatedCounterText;
 });
 
-//now it ticks automatically
-setInterval(() => {
-  counter += 1;
-  const updatedCounterText = `GME Stock Price: ${counter}$`;
+let originTime: number = 0;
+
+// Define the function to update the counter
+function updateCounter() {
+  // Increase the counter by 0.016 for each frame
+  let deltaTime = performance.now()
+  counter += 1 / ((deltaTime - originTime)) // one divided by the time passed in seconds
+  originTime = deltaTime
+  // Update the displayed text
+  const updatedCounterText = `GME Stock Price: ${counter.toFixed(2)}$`;
   counterElement.innerHTML = updatedCounterText;
-}, 1500);
+  
+  // Schedule the next update
+  requestAnimationFrame(updateCounter);
+}
+
+// Start the loop
+requestAnimationFrame(updateCounter);
