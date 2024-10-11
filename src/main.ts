@@ -27,3 +27,10 @@ button.addEventListener("click", () => {
   const updatedCounterText = `GME Stock Price: ${counter}$`;
   counterElement.innerHTML = updatedCounterText;
 });
+
+//now it ticks automatically
+setInterval(() => {
+  counter += 1;
+  const updatedCounterText = `GME Stock Price: ${counter}$`;
+  counterElement.innerHTML = updatedCounterText;
+}, 1500);
