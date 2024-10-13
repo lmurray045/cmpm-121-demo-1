@@ -45,6 +45,7 @@ class Upgrade {
   text: string;
   price: number;
   scale: number;
+  tooltip: string;
   button: Button;
   timesBought: number;
   hudElement: HTMLDivElement;
@@ -53,6 +54,7 @@ class Upgrade {
     text: string,
     price: number,
     scale: number,
+    tooltip: string,
     stylePosition: string,
     styleBottom: string,
     styleLeft: string,
@@ -63,6 +65,7 @@ class Upgrade {
     this.text = text;
     this.price = price;
     this.scale = scale;
+    this.tooltip = tooltip;
     this.timesBought = 0;
     this.hudElement = document.createElement("div");
 
@@ -75,6 +78,9 @@ class Upgrade {
       styleRight,
     );
 
+    //make button tooltip
+    this.button.obj.title = this.tooltip;
+    
     //add listener to button
     this.button.obj.addEventListener("click", () => {
       //update numbers
@@ -98,7 +104,11 @@ class Upgrade {
     this.hudElement.innerHTML = `"${this.text}" purchased: ${this.timesBought}`;
   }
 
-  makeHudElement(stylePosition: string, styleBottom: string, styleLeft: string) {
+  makeHudElement(
+    stylePosition: string,
+    styleBottom: string,
+    styleLeft: string,
+  ) {
     this.hudElement.innerHTML = `"${this.text}" purchased: ${this.timesBought}`;
     this.hudElement.style.position = stylePosition;
     this.hudElement.style.bottom = styleBottom;
@@ -130,16 +140,40 @@ interface Item {
   name: string;
   cost: number;
   rate: number;
+  tooltip: string;
 }
 
 const availableItems: Item[] = [
-  { name: "Buy Stock", cost: 10, rate: 0.1 },
+  { 
+    name: "Buy Stock!", 
+    cost: 10, 
+    rate: 0.1,
+    tooltip: "It can't fail! Earns you 0.10$/second",
+  },
   {
-    name: "Post on Reddit about your poor financial choices",
+    name: "Post on Reddit about your poor financial choices!",
     cost: 100,
     rate: 2,
+    tooltip: "Surely showing your loses to the public will get more investors! 2$/second",
   },
-  { name: "Withdraw your kids' college funds to invest", cost: 1000, rate: 50 },
+  { 
+    name: "Withdraw your kids' college funds to invest!", 
+    cost: 1000,
+    rate: 50,
+    tooltip: "The streets will teach them everything they need to know. 50$/second"
+  },
+  { 
+    name: "Drain the retirment fund!", 
+    cost: 10000,
+    rate: 1000,
+    tooltip: "More like 401 Yay, am I right? 1000$/second"
+  },
+  { 
+    name: "Reverse mortgage the house!", 
+    cost: 100000,
+    rate: 5000,
+    tooltip: "I hear the pawn shop is always accepting wedding rings! 5000$/second"
+  },
 ];
 
 let formatBottom: number = 300;
@@ -151,6 +185,7 @@ availableItems.forEach((item: Item) => {
     item.name,
     item.cost,
     item.rate,
+    item.tooltip,
     "absolute",
     `${formatBottom}px`,
     "1",
