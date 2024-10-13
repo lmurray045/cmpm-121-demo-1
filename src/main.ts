@@ -13,9 +13,16 @@ app.append(header);
 
 //button generator
 class Button {
-  text:string ;
+  text: string;
   obj: HTMLButtonElement;
-  constructor(displayText: string, stylePosition: string, styleBottom: string, scale:string, styleLeft: string, styleRight?: string) {
+  constructor(
+    displayText: string,
+    stylePosition: string,
+    styleBottom: string,
+    scale: string,
+    styleLeft: string,
+    styleRight?: string,
+  ) {
     //make the style object
     this.text = displayText;
     this.obj = document.createElement("button");
@@ -26,12 +33,11 @@ class Button {
     this.obj.style.bottom = styleBottom;
     this.obj.style.left = styleLeft;
     this.obj.style.scale = scale;
-    if(styleRight) {
+    if (styleRight) {
       this.obj.style.right = styleRight;
     }
-    app.append(this.obj)
+    app.append(this.obj);
   }
-
 }
 
 //upgrade class
@@ -43,7 +49,16 @@ class Upgrade {
   timesBought: number;
   hudElement: HTMLDivElement;
 
-  constructor(text: string, price: number, scale: number, stylePosition: string, styleBottom: string, styleLeft: string, styleRight: string, UIscale:string) {
+  constructor(
+    text: string,
+    price: number,
+    scale: number,
+    stylePosition: string,
+    styleBottom: string,
+    styleLeft: string,
+    styleRight: string,
+    UIscale: string,
+  ) {
     //declare fields and make button
     this.text = text;
     this.price = price;
@@ -51,7 +66,14 @@ class Upgrade {
     this.timesBought = 0;
     this.hudElement = document.createElement("div");
 
-    this.button = new Button(this.text + ` - ${price}$`, stylePosition, styleBottom, UIscale, styleLeft, styleRight);
+    this.button = new Button(
+      this.text + ` - ${price}$`,
+      stylePosition,
+      styleBottom,
+      UIscale,
+      styleLeft,
+      styleRight,
+    );
 
     //add listener to button
     this.button.obj.addEventListener("click", () => {
@@ -76,17 +98,17 @@ class Upgrade {
     this.hudElement.innerHTML = `"${this.text}" purchased: ${this.timesBought}`;
   }
 
-  makeHudElement(stylePosition: string, styleTop: string, styleLeft: string) {
+  makeHudElement(stylePosition: string, styleBottom: string, styleLeft: string) {
     this.hudElement.innerHTML = `"${this.text}" purchased: ${this.timesBought}`;
     this.hudElement.style.position = stylePosition;
-    this.hudElement.style.top = styleTop;
+    this.hudElement.style.bottom = styleBottom;
     this.hudElement.style.left = styleLeft;
     app.append(this.hudElement);
   }
 }
 
 //make a clickable button
-const button = new Button("🚀", "relative", "150px", "0px", "1.4")
+const button = new Button("🚀", "relative", "150px", "0px", "1.4");
 
 //add a listener and a counter
 let counter: number = 0;
@@ -105,29 +127,40 @@ button.obj.addEventListener("click", () => {
 
 //make upgrades
 interface Item {
-  name: string,
-  cost: number,
-  rate: number
-};
+  name: string;
+  cost: number;
+  rate: number;
+}
 
-const availableItems : Item[] = [
-  {name: "Buy Stock", cost: 10, rate: 0.1},
-  {name: "Post on Reddit about your poor financial choices", cost: 100, rate: 2},
-  {name: "Withdraw your kids' college funds to invest", cost: 1000, rate: 50},
+const availableItems: Item[] = [
+  { name: "Buy Stock", cost: 10, rate: 0.1 },
+  {
+    name: "Post on Reddit about your poor financial choices",
+    cost: 100,
+    rate: 2,
+  },
+  { name: "Withdraw your kids' college funds to invest", cost: 1000, rate: 50 },
 ];
 
-let formatTop: number = 300
-let formatHud: number = 350
+let formatBottom: number = 300;
 
-const upgradeList: Upgrade[] = []
+const upgradeList: Upgrade[] = [];
 
 availableItems.forEach((item: Item) => {
-  const upg = new Upgrade(item.name, item.cost, item.rate, "absolute", `${formatTop}px`, "1", '20px', '20px')
-  upgradeList.push(upg)
-  upg.makeHudElement("absolute", `${formatHud}px`, "30px")
-  formatTop -= 50;
-  formatHud += 50;
-})
+  const upg = new Upgrade(
+    item.name,
+    item.cost,
+    item.rate,
+    "absolute",
+    `${formatBottom}px`,
+    "1",
+    "20px",
+    "20px",
+  );
+  upgradeList.push(upg);
+  upg.makeHudElement("absolute", `${formatBottom + 5}px`, "30px");
+  formatBottom -= 50;
+});
 
 //declare rate related variables
 let originTime: number = performance.now();
@@ -163,13 +196,12 @@ function updateCounter() {
 
   //make upgrades available
   upgradeList.forEach((upgrade) => {
-    upgrade.update()
-  })
+    upgrade.update();
+  });
 
   // Schedule the next update
   requestAnimationFrame(updateCounter);
 }
-
 
 // Start the loop
 requestAnimationFrame(updateCounter);
