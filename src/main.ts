@@ -17,7 +17,7 @@ const button = document.createElement("button");
 button.innerHTML = buttonText;
 button.style.position = "relative";
 button.style.bottom = "100px";
-button.style.scale = "1.3"
+button.style.scale = "1.4";
 app.append(button);
 
 //add a listener and a counter
@@ -134,7 +134,7 @@ class Upgrade {
 
 const upgrade1 = new Upgrade("Buy Stock", 10, 0.1);
 const upgrade2 = new Upgrade(
-  "Post on Reddit about poor financial choices",
+  "Post on Reddit about your poor financial choices",
   100,
   2,
 );
@@ -147,7 +147,7 @@ const upgrade3 = new Upgrade(
 upgrade1.upgrade.style.position = "relative";
 upgrade1.upgrade.style.transformOrigin = "center";
 upgrade1.upgrade.style.bottom = "50px";
-upgrade1.upgrade.style.left = "425px";
+upgrade1.upgrade.style.left = "435px";
 
 upgrade2.upgrade.style.position = "relative";
 upgrade2.upgrade.style.transformOrigin = "center";
@@ -157,7 +157,7 @@ upgrade2.upgrade.style.left = "140px";
 upgrade3.upgrade.style.position = "relative";
 upgrade3.upgrade.style.transformOrigin = "center";
 upgrade3.upgrade.style.top = "50px";
-upgrade3.upgrade.style.right = "275px";
+upgrade3.upgrade.style.right = "295px";
 
 const u1Text: string = `Investments made: ${upgrade1.timesBought}`;
 const u1Element = document.createElement("div");
