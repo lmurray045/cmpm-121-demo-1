@@ -88,7 +88,7 @@ class Upgrade {
       perSecondIncrement += this.scale / framesPerSecond;
       profitPerSecond += this.scale;
       counter -= this.price;
-      this.price *= 1.15;
+      this.price *= itemCostScaling;
       //redisplay text
       const updatedCounterText = this.text + ` - ${this.price.toFixed(2)}$`;
       this.button.obj.innerHTML = updatedCounterText;
@@ -200,6 +200,9 @@ availableItems.forEach((item: Item) => {
   formatBottom -= 50;
 });
 
+//global variables
+const itemCostScaling: number = 1.15;
+
 //declare rate related variables
 let originTime: number = performance.now();
 let framesPerSecond: number = 0;
@@ -243,10 +246,10 @@ function updateCounter() {
   counter += perSecondIncrement;
 
   // Update the displayed text
-  updateStockPrice()
+  updateStockPrice();
 
   //profit per second text
-  updateProfit()
+  updateProfit();
 
   //make upgrades available
   upgradeList.forEach((upgrade) => {
