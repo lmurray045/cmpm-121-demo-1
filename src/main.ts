@@ -80,13 +80,13 @@ class Upgrade {
 
     //make button tooltip
     this.button.obj.title = this.tooltip;
-    
+
     //add listener to button
     this.button.obj.addEventListener("click", () => {
       //update numbers
       this.timesBought += 1;
-      rate += this.scale / fps;
-      dps += this.scale;
+      perSecondIncrement += this.scale / framesPerSecond;
+      profitPerSecond += this.scale;
       counter -= this.price;
       this.price *= 1.15;
       //redisplay text
@@ -139,40 +139,43 @@ button.obj.addEventListener("click", () => {
 interface Item {
   name: string;
   cost: number;
-  rate: number;
+  perSecondIncrease: number;
   tooltip: string;
 }
 
 const availableItems: Item[] = [
-  { 
-    name: "Buy Stock!", 
-    cost: 10, 
-    rate: 0.1,
+  {
+    name: "Buy Stock!",
+    cost: 10,
+    perSecondIncrease: 0.1,
     tooltip: "It can't fail! Earns you 0.10$/second",
   },
   {
     name: "Post on Reddit about your poor financial choices!",
     cost: 100,
-    rate: 2,
-    tooltip: "Surely showing your loses to the public will get more investors! 2$/second",
+    perSecondIncrease: 2,
+    tooltip:
+      "Surely showing your loses to the public will get more investors! 2$/second",
   },
-  { 
-    name: "Withdraw your kids' college funds to invest!", 
+  {
+    name: "Withdraw your kids' college funds to invest!",
     cost: 1000,
-    rate: 50,
-    tooltip: "The streets will teach them everything they need to know. 50$/second"
+    perSecondIncrease: 50,
+    tooltip:
+      "The streets will teach them everything they need to know. 50$/second",
   },
-  { 
-    name: "Drain the retirment fund!", 
+  {
+    name: "Drain the retirment fund!",
     cost: 10000,
-    rate: 1000,
-    tooltip: "More like 401 Yay, am I right? 1000$/second"
+    perSecondIncrease: 1000,
+    tooltip: "More like 401 Yay, am I right? 1000$/second",
   },
-  { 
-    name: "Reverse mortgage the house!", 
+  {
+    name: "Reverse mortgage the house!",
     cost: 100000,
-    rate: 5000,
-    tooltip: "I hear the pawn shop is always accepting wedding rings! 5000$/second"
+    perSecondIncrease: 5000,
+    tooltip:
+      "I hear the pawn shop is always accepting wedding rings! 5000$/second",
   },
 ];
 
@@ -184,7 +187,7 @@ availableItems.forEach((item: Item) => {
   const upg = new Upgrade(
     item.name,
     item.cost,
-    item.rate,
+    item.perSecondIncrease,
     item.tooltip,
     "absolute",
     `${formatBottom}px`,
@@ -199,35 +202,51 @@ availableItems.forEach((item: Item) => {
 
 //declare rate related variables
 let originTime: number = performance.now();
-let fps: number = 0;
-let rate: number = 0;
-let dps: number = 0;
+let framesPerSecond: number = 0;
+let perSecondIncrement: number = 0;
+let profitPerSecond: number = 0;
 
 //hud text
-const dpsText: string = `"Profit" per second: ${dps.toFixed(2)}$`;
-const dpsElement = document.createElement("div");
-dpsElement.innerHTML = dpsText;
-dpsElement.style.position = "absolute";
-dpsElement.style.top = "30px";
-dpsElement.style.left = "30px";
-app.append(dpsElement);
+const profitPerSecondText: string = `"Profit" per second: ${profitPerSecond.toFixed(2)}$`;
+const profitPerSecondElement = document.createElement("div");
+profitPerSecondElement.innerHTML = profitPerSecondText;
+profitPerSecondElement.style.position = "absolute";
+profitPerSecondElement.style.top = "30px";
+profitPerSecondElement.style.left = "30px";
+app.append(profitPerSecondElement);
 
-// Define the function to update the counter
-function updateCounter() {
-  // Increase the counter by time delta for each frame
+function updateFrameRate(): void {
   //gather frame rate
   const deltaTime = performance.now();
-  fps = 1000 / (deltaTime - originTime);
+  framesPerSecond = 1000 / (deltaTime - originTime);
   originTime = deltaTime;
-  counter += rate;
+}
 
+function updateStockPrice(): void {
   // Update the displayed text
   const updatedCounterText = `GME Stock Price: ${counter.toFixed(2)}$`;
   counterElement.innerHTML = updatedCounterText;
+}
 
-  //dps text
-  const updatedDpsText = `"Profit" per second: ${dps.toFixed(2)}$`;
-  dpsElement.innerHTML = updatedDpsText;
+function updateProfit(): void {
+  //profit per second text
+  const updatedProfitPerSecondText = `"Profit" per second: ${profitPerSecond.toFixed(2)}$`;
+  profitPerSecondElement.innerHTML = updatedProfitPerSecondText;
+}
+
+// Define the function to update the counter
+function updateCounter() {
+  //get current frameRate
+  updateFrameRate();
+
+  //add to the counter with each pass
+  counter += perSecondIncrement;
+
+  // Update the displayed text
+  updateStockPrice()
+
+  //profit per second text
+  updateProfit()
 
   //make upgrades available
   upgradeList.forEach((upgrade) => {
