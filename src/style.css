@@ -3,7 +3,7 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
+  color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
@@ -62,6 +62,10 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+span {
+  white-space:pre;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -74,3 +78,34 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* credit to brace, inspiration from https://github.com/rozy-dixon/cmpm-121-demo-1/blob/main/src/style.css */
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  15% { transform: rotate(10deg); }
+  30% { transform: rotate(-10deg); }
+  45% { transform: rotate(5deg); }
+  60% { transform: rotate(-5deg); }
+  75% { transform: rotate(7deg); }
+  90% { transform: rotate(-7deg); }
+}
+
+.wiggle-text span {
+  display: inline-block; /* Needed for transform effects */
+  animation: wiggle 1.5s infinite;
+  line-height: 1.5;
+}
+
+/* Add delay to each subsequent span */
+.wiggle-text span:nth-child(1) { animation-delay: 0s; }
+.wiggle-text span:nth-child(2) { animation-delay: 0.1s; }
+.wiggle-text span:nth-child(4) { animation-delay: 0.2s; }
+.wiggle-text span:nth-child(5) { animation-delay: 0.3s; }
+.wiggle-text span:nth-child(6) { animation-delay: 0.4s; }
+.wiggle-text span:nth-child(8) { animation-delay: 0.5s; }
+.wiggle-text span:nth-child(9) { animation-delay: 0.6s; }
+.wiggle-text span:nth-child(10) { animation-delay: 0.7s; }
+.wiggle-text span:nth-child(11) { animation-delay: 0.8s; }
+.wiggle-text span:nth-child(12) { animation-delay: 0.9s; }
+/* Continue cascading delays for each letter */

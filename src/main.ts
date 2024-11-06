@@ -5,10 +5,21 @@ const app: HTMLDivElement = document.querySelector("#app")!;
 const gameName = "To The Moon!";
 document.title = gameName;
 
+const gameNameString = "To The Moon!";
+
+//Credit to Brace for help with this code
 const header = document.createElement("h1");
+header.classList.add("wiggle-text")
 header.style.position = "relative";
 header.style.bottom = "150px";
-header.innerHTML = gameName;
+gameNameString.split('').forEach((char) => {
+  // Create a new span element for each character
+  const span = document.createElement('span');
+  span.textContent = char;
+
+  // Append the span to the title element
+  header.appendChild(span);
+})
 app.append(header);
 
 //button generator
@@ -118,7 +129,7 @@ class Upgrade {
 }
 
 //make a clickable button
-const button = new Button("🚀", "relative", "150px", "0px", "1.4");
+const button = new Button("🚀", "relative", "170px", "2", "0px",);
 
 //add a listener and a counter
 let counter: number = 0;
@@ -237,6 +248,16 @@ function updateProfit(): void {
   profitPerSecondElement.innerHTML = updatedProfitPerSecondText;
 }
 
+function updateShake(num: number): void {
+  if(num <= 0){
+    num = 0.07;
+  }
+  const spans = document.querySelectorAll('.wiggle-text span');
+  spans.forEach(span => {
+    (span as HTMLElement).style.animationDuration = num + 's';
+  });
+}
+
 // Define the function to update the counter
 function updateCounter() {
   //get current frameRate
@@ -244,6 +265,9 @@ function updateCounter() {
 
   //add to the counter with each pass
   counter += perSecondIncrement;
+
+  //update the shaking speed
+  updateShake(1.5 - (profitPerSecond / 20));
 
   // Update the displayed text
   updateStockPrice();
