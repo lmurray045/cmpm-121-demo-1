@@ -129,11 +129,11 @@ class Upgrade {
 }
 
 //make a clickable button
-const buttonTop = '170px';
-const buttonLeft = '0px';
+const buttonTop = "170px";
+const buttonLeft = "0px";
 const button = new Button("🚀", "relative", buttonTop, "2", buttonLeft);
 
-const buttonContainer = document.createElement('div')
+const buttonContainer = document.createElement("div");
 app.append(buttonContainer);
 
 //add a listener and a counter
@@ -265,12 +265,12 @@ function updateShake(num: number): void {
 }
 
 function floatDollar(): void {
-  const dollarSign = document.createElement('div');
-  dollarSign.className = 'dollar';
-  dollarSign.textContent = '$';
+  const dollarSign = document.createElement("div");
+  dollarSign.className = "dollar";
+  dollarSign.textContent = "$";
 
   // Position the dollar sign near the button
-  
+
   dollarSign.style.left = `${630 + Math.floor(Math.random() * 10)}px`;
   dollarSign.style.top = `${190}px`;
 
