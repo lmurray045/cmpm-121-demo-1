@@ -9,17 +9,17 @@ const gameNameString = "To The Moon!";
 
 //Credit to Brace for help with this code
 const header = document.createElement("h1");
-header.classList.add("wiggle-text")
+header.classList.add("wiggle-text");
 header.style.position = "relative";
 header.style.bottom = "150px";
-gameNameString.split('').forEach((char) => {
+gameNameString.split("").forEach((char) => {
   // Create a new span element for each character
-  const span = document.createElement('span');
+  const span = document.createElement("span");
   span.textContent = char;
 
   // Append the span to the title element
   header.appendChild(span);
-})
+});
 app.append(header);
 
 //button generator
@@ -129,7 +129,12 @@ class Upgrade {
 }
 
 //make a clickable button
-const button = new Button("🚀", "relative", "170px", "2", "0px",);
+const buttonTop = '170px';
+const buttonLeft = '0px';
+const button = new Button("🚀", "relative", buttonTop, "2", buttonLeft);
+
+const buttonContainer = document.createElement('div')
+app.append(buttonContainer);
 
 //add a listener and a counter
 let counter: number = 0;
@@ -144,6 +149,7 @@ button.obj.addEventListener("click", () => {
   counter += 1;
   const updatedCounterText = `GME Stock Price: ${counter}$`;
   counterElement.innerHTML = updatedCounterText;
+  floatDollar();
 });
 
 //make upgrades
@@ -249,13 +255,31 @@ function updateProfit(): void {
 }
 
 function updateShake(num: number): void {
-  if(num <= 0){
+  if (num <= 0) {
     num = 0.07;
   }
-  const spans = document.querySelectorAll('.wiggle-text span');
-  spans.forEach(span => {
-    (span as HTMLElement).style.animationDuration = num + 's';
+  const spans = document.querySelectorAll(".wiggle-text span");
+  spans.forEach((span) => {
+    (span as HTMLElement).style.animationDuration = num + "s";
   });
+}
+
+function floatDollar(): void {
+  const dollarSign = document.createElement('div');
+  dollarSign.className = 'dollar';
+  dollarSign.textContent = '$';
+
+  // Position the dollar sign near the button
+  
+  dollarSign.style.left = `${630 + Math.floor(Math.random() * 10)}px`;
+  dollarSign.style.top = `${190}px`;
+
+  buttonContainer.appendChild(dollarSign);
+
+  // Remove the dollar sign after the animation completes
+  setTimeout(() => {
+    dollarSign.remove();
+  }, 2000);
 }
 
 // Define the function to update the counter
@@ -267,7 +291,7 @@ function updateCounter() {
   counter += perSecondIncrement;
 
   //update the shaking speed
-  updateShake(1.5 - (profitPerSecond / 20));
+  updateShake(1.5 - profitPerSecond / 20);
 
   // Update the displayed text
   updateStockPrice();
